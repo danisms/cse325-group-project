@@ -1,2 +1,6 @@
-# cse325-group-project
-Mastering .Net Group Project
+# CSE325-Group-Project
+## Mastering .Net Group Project
+
+## Team Members
+- Daniel C. Opute
+- Jacob Nielsen

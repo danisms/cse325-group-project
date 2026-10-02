@@ -125,6 +125,10 @@ The interface should use responsive design to provide a usable experience on bot
 
 All team members should follow the workflow below to keep development organized and the main branch stable.
 
+### Update Workspace
+- Before begin working, always remember to update your workspace by making a pull request
+- Always Check to make sure the pull request is done on the main branch, not on your created branch 
+
 ### Branching
 
 1. Do not work directly on the main branch.

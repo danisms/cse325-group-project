@@ -5,7 +5,7 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
   "mainAssemblyName": "ddiscourse.Client",
   "applicationEnvironment": "Development",
   "resources": {
-    "hash": "sha256-MY+JD8vnEuWK9f867cJRV/E4ry+3qNBzatAz5/LoGto=",
+    "hash": "sha256-J8O8mPQ/pMWiAlsx1I5rHLUMIbciyNu2bLwgyuU3F4I=",
     "jsModuleNative": [
       {
         "name": "dotnet.native.vzj2a6aakt.js"
@@ -1254,16 +1254,16 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
       },
       {
         "virtualPath": "ddiscourse.Client.wasm",
-        "name": "ddiscourse.Client.njz3bbvrr8.wasm",
-        "hash": "sha256-TYLvPplMoDjMnxB+BoYIBz9t/FTHIu9h8CylYfb5LQA=",
+        "name": "ddiscourse.Client.dyzp1syl0c.wasm",
+        "hash": "sha256-RXMxQN1Xe1ZXd5uyH1Jn6si0tRwbRnYmtYgQjRCMQJE=",
         "cache": "force-cache"
       }
     ],
     "pdb": [
       {
         "virtualPath": "ddiscourse.Client.pdb",
-        "name": "ddiscourse.Client.z9amfzdeav.pdb",
-        "hash": "sha256-hwg295DHcaZ/eMqKXjuqKI6cxdFbqdc452ex+g8Z68c=",
+        "name": "ddiscourse.Client.w5jsj9i7kv.pdb",
+        "hash": "sha256-/BjyxcugBrat4xxUXrFXH8AAN8e3tIElPq4EIwMJlw0=",
         "cache": "force-cache"
       }
     ],
@@ -1280,8 +1280,8 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
   },
   "debugLevel": -1,
   "appsettings": [
-    "../appsettings.Development.json",
-    "../appsettings.json"
+    "../appsettings.json",
+    "../appsettings.Development.json"
   ],
   "globalizationMode": "sharded",
   "extensions": {

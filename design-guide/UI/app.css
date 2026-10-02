@@ -1,0 +1,507 @@
+/* ==========================================================================
+   DISCOURSE MVP: app.css
+   --------------------------------------------------------------------------
+   One stylesheet, no component library. All values come from the brand guide.
+
+   HOW TO USE
+   - Remove Bootstrap from the Blazor template so it doesn't compete with this.
+   - Load the Inter font in the <head> (see the brand guide, section 7).
+   - Add <link rel="stylesheet" href="app.css"> after any other stylesheets.
+   - Desktop shows a sidebar. Mobile (768px and below) shows a top bar and a
+     bottom tab bar. There is ONE @media rule, at the end of this file.
+
+   CONTENTS
+    1. Design tokens (colours, type, shape)
+    2. Board colours (c0 to c5)
+    3. Base reset
+    4. Layout shell (page structure, sidebar, mobile bars)
+    5. Buttons
+    6. Cards, tags, badges, avatars
+    7. Article card (Home and Board page)
+    8. Board card and board header
+    9. Forms and validation
+   10. Auth page (sign in / create account)
+   11. Home hero banner (guests only)
+   12. Article page (reading, rating)
+   13. Comments
+   14. Empty states and Account page
+   15. Mobile rules (the only @media switch)
+   16. Motion
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. DESIGN TOKENS
+   Change a value here and it updates everywhere. Use var(--name) in new CSS
+   instead of typing hex codes.
+   ========================================================================== */
+:root {
+  /* Brand */
+  --color-primary: #2563EB;          /* main buttons, links, active nav */
+  --color-primary-hover: #1D4ED8;    /* hover/pressed state of primary */
+  --color-primary-light: #EFF6FF;    /* pale blue: active nav, badges */
+  --color-navy: #0B1F3A;             /* headings, body text, hero background */
+
+  /* Actions */
+  --color-success: #15803D;          /* Publish and confirmations ONLY */
+  --color-success-hover: #166534;
+  --color-danger: #B91C1C;           /* delete buttons, error text */
+  --color-danger-light: #FEF2F2;     /* error and danger-zone backgrounds */
+  --color-danger-border: #FECACA;
+
+  /* Surfaces */
+  --color-background: #F1F5F9;       /* page background (cool light grey) */
+  --color-surface: #FFFFFF;          /* cards, sidebar, panels */
+  --color-border: #E2E8F0;           /* card borders and dividers */
+  --color-input-border: #94A3B8;     /* form fields (darker, so they are visible) */
+
+  /* Text */
+  --color-text: #0B1F3A;
+  --color-text-muted: #64748B;       /* authors, dates, hints. Not for key instructions */
+
+  /* Type and shape */
+  --font-family: "Inter", system-ui, sans-serif;
+  --font-size-body: 16px;
+  --line-height-body: 1.7;
+  --radius-card: 12px;               /* cards and panels */
+  --radius-button: 8px;              /* buttons and inputs */
+}
+
+
+/* ==========================================================================
+   2. BOARD COLOURS
+   Each board gets one of six colours. Add the class to the element that holds
+   the board's content, and the children pick the colour up automatically.
+
+   In Razor:  <a class="card article-card c@(board.Id % 6)"> ... </a>
+
+   What each variable is used for:
+     --band  decorative stripe (card left edge, board band)
+     --tint  light background of the .tag pill
+     --ink   text colour of the .tag pill, and the fill of .avatar
+   Green is not used here on purpose: it is reserved for Publish.
+   ========================================================================== */
+.c0 { --band: #2563EB; --tint: #DBEAFE; --ink: #1E40AF; }  /* blue   */
+.c1 { --band: #0D9488; --tint: #CCFBF1; --ink: #115E59; }  /* teal   */
+.c2 { --band: #7C3AED; --tint: #EDE9FE; --ink: #5B21B6; }  /* purple */
+.c3 { --band: #D97706; --tint: #FEF3C7; --ink: #92400E; }  /* amber  */
+.c4 { --band: #E11D48; --tint: #FFE4E6; --ink: #9F1239; }  /* rose   */
+.c5 { --band: #0891B2; --tint: #CFFAFE; --ink: #155E75; }  /* cyan   */
+
+
+/* ==========================================================================
+   3. BASE RESET
+   Plain element defaults. The BASE markers let the mockup preview extract this
+   block, so keep them in place.
+   ========================================================================== */
+/* ==BASE-START== */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  color: var(--color-text);
+  background: var(--color-background);
+}
+h1, h2, h3, p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+button, input, textarea, select { font: inherit; }   /* form controls inherit Inter */
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; } /* keyboard focus ring */
+/* ==BASE-END== */
+
+
+/* ==========================================================================
+   4. LAYOUT SHELL
+
+   Every page uses this structure:
+
+   <div class="app">
+     <aside class="sidebar"> ... </aside>          (desktop only)
+     <div>
+       <header class="topbar-m"> ... </header>     (mobile only)
+       <main class="main">
+         <div class="page"> page content </div>
+       </main>
+     </div>
+     <nav class="tabbar"> ... </nav>               (mobile only)
+   </div>
+
+   Page width modifiers (add next to .page):
+     .page-narrow  720px, for the editor and Account page
+     .page-wide    960px, for wider layouts
+   ========================================================================== */
+.app { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100vh; }
+.main { min-width: 0; padding: 28px; }
+.page { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+.page-wide { max-width: 960px; }
+.page-narrow { max-width: 720px; }
+
+/* Page title row: h1 on the left, optional button pushed right with .spacer */
+.page-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.page-head h1 { font-size: 30px; line-height: 1.2; font-weight: 700; }
+
+/* Small layout helpers */
+.spacer { margin-left: auto; }                          /* pushes an item to the far right */
+.stack { display: flex; flex-direction: column; gap: 14px; }   /* vertical group */
+.row { display: flex; align-items: center; gap: 10px; }        /* horizontal group */
+.wrap { flex-wrap: wrap; }                              /* combine with .row */
+.muted { color: var(--color-text-muted); font-size: 13px; }
+
+/* ---------- Sidebar (desktop) ----------
+   Order inside: .brand, .nav-item links, optional .btn (Write article),
+   then .sidebar-user pinned to the bottom. */
+.sidebar {
+  position: sticky; top: 0; height: 100vh;
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 20px 14px;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+}
+.brand { display: flex; align-items: center; gap: 8px; padding: 0 8px 16px; font-size: 20px; font-weight: 700; }
+.brand img { height: 28px; width: auto; }               /* use the symbol-only logo here */
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  min-height: 44px; padding: 10px 12px; border-radius: var(--radius-button);
+  font-size: 14px; font-weight: 500; color: #334155;
+}
+.nav-item:hover { background: var(--color-background); }
+.nav-item.active { background: var(--color-primary-light); color: var(--color-primary); } /* current page */
+.sidebar > .btn { margin-top: 12px; }                   /* "Write article" button */
+
+/* Bottom of the sidebar: user chip when signed in, Sign in / Create account for guests */
+.sidebar-user { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--color-border); display: flex; flex-direction: column; gap: 8px; }
+.user-chip { display: flex; align-items: center; gap: 10px; font-size: 14px; line-height: 1.3; font-weight: 600; }
+.user-chip small { display: block; font-weight: 400; font-size: 13px; color: var(--color-text-muted); } /* role */
+
+/* ---------- Mobile chrome ----------
+   Hidden on desktop. Section 15 turns them on at 768px and below. */
+.topbar-m { display: none; align-items: center; gap: 10px; padding: 10px 16px; background: var(--color-surface); border-bottom: 1px solid var(--color-border); position: sticky; top: 0; z-index: 5; }
+.topbar-m .brand { padding: 0; font-size: 18px; }
+.topbar-m .brand img { height: 26px; }
+
+/* Bottom tab bar: exactly 4 items (Home, Boards, Write, Account / Sign in) */
+.tabbar {
+  display: none; grid-template-columns: repeat(4, 1fr);
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+  background: var(--color-surface); border-top: 1px solid var(--color-border);
+  padding: 6px 4px calc(8px + env(safe-area-inset-bottom, 0px));   /* clears the iPhone home bar */
+}
+.tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 48px; font-size: 11px; font-weight: 500; color: var(--color-text-muted); }
+.tab.active { color: var(--color-primary); }
+.tab-fab { display: grid; place-items: center; width: 44px; height: 44px; margin-top: -4px; border-radius: 50%; background: var(--color-primary); color: #fff; } /* round Write button; add an .sr-only label inside */
+
+
+/* ==========================================================================
+   5. BUTTONS
+   Default .btn is primary blue. Add a modifier for other looks:
+     <a class="btn">                      primary action
+     <a class="btn btn-green">            Publish and confirmations ONLY
+     <a class="btn btn-outline">          secondary action (Cancel, Edit, Sign out)
+     <a class="btn btn-danger">           destructive action (Delete)
+     <a class="btn btn-light">            on dark backgrounds (hero)
+     <a class="btn btn-outline-light">    secondary on dark backgrounds (hero)
+   Size modifiers: .btn-sm (smaller), .btn-block (full width).
+   ========================================================================== */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 40px; padding: 9px 16px;
+  border: 1px solid transparent; border-radius: var(--radius-button);
+  background: var(--color-primary); color: #fff;
+  font-size: 14px; font-weight: 600; line-height: 1.2;
+}
+.btn:hover { background: var(--color-primary-hover); }
+.btn-green { background: var(--color-success); }
+.btn-green:hover { background: var(--color-success-hover); }
+.btn-outline { background: #fff; color: var(--color-text); border-color: #CBD5E1; }
+.btn-outline:hover { background: var(--color-background); }
+.btn-danger { background: var(--color-danger); }
+.btn-danger:hover { background: #991B1B; }
+.btn-light { background: #fff; color: var(--color-navy); }
+.btn-light:hover { background: #E2E8F0; }
+.btn-outline-light { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .55); }
+.btn-outline-light:hover { background: rgba(255, 255, 255, .12); }
+.btn-block { width: 100%; }
+.btn-sm { min-height: 36px; padding: 6px 14px; }
+
+/* Text-style button for small inline actions (Edit, Delete, Cancel, Continue as guest).
+   Add .danger for destructive ones. Padding keeps the tap target comfortable. */
+.link-btn { background: none; border: 0; padding: 8px 0; font-size: 13px; font-weight: 500; color: var(--color-primary); }
+.link-btn:hover { text-decoration: underline; }
+.link-btn.danger { color: var(--color-danger); }
+
+
+/* ==========================================================================
+   6. CARDS, TAGS, BADGES, AVATARS
+   .card is the white rounded box used for almost everything.
+   .tag takes its colours from a board class (c0 to c5) on itself or a parent.
+   .avatar shows initials on a coloured circle (no photos in the MVP):
+     <span class="avatar c0">DO</span>      28px
+     <span class="avatar avatar-lg c0">DO</span>   36px
+   ========================================================================== */
+.card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-card); }
+.card-pad { padding: 20px; }                            /* add to .card for inner spacing */
+.tag { display: inline-block; padding: 5px 10px; border-radius: 99px; background: var(--tint, #DBEAFE); color: var(--ink, #1E40AF); font-size: 12px; font-weight: 600; line-height: 1; }
+.badge { display: inline-block; padding: 3px 8px; border-radius: 99px; background: var(--color-primary-light); color: #1E40AF; font-size: 11px; font-weight: 600; line-height: 1.3; }
+.avatar { display: inline-grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--ink, var(--color-navy)); color: #fff; font-size: 11px; font-weight: 600; }
+.avatar-lg { width: 36px; height: 36px; font-size: 13px; }
+
+
+/* ==========================================================================
+   7. ARTICLE CARD (Home and Board page)
+   The same card is reused in both places. Markup:
+
+   <a class="card article-card c0" href="/article/1">
+     <span class="tag">Technology</span>
+     <h3>Article title</h3>
+     <p class="excerpt">First two lines of the article...</p>
+     <div class="meta">
+       <span class="avatar c0">DO</span><b>Daniel Opute</b><span>2 days ago</span>
+       <span class="count">★ 4.6 · 12 comments</span>
+     </div>
+   </a>
+   ========================================================================== */
+.article-card { display: block; padding: 16px 18px; border-left: 4px solid var(--band, var(--color-primary)); } /* coloured left edge */
+.article-card:hover { border-color: #CBD5E1; border-left-color: var(--band); }
+.article-card:hover h3 { color: var(--color-primary); }
+.article-card h3 { margin: 8px 0 4px; font-size: 18px; line-height: 1.35; font-weight: 600; }
+.article-card .excerpt { color: var(--color-text-muted); font-size: 14px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } /* cuts off after 2 lines */
+.meta { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; color: var(--color-text-muted); }
+.meta b { font-weight: 500; color: var(--color-text); }                 /* author name */
+.meta .count { display: inline-flex; align-items: center; gap: 4px; margin-left: auto; } /* rating + comments, pushed right */
+
+
+/* ==========================================================================
+   8. BOARD CARD AND BOARD HEADER
+   Boards list: put cards inside .board-grid.
+
+   <div class="board-grid">
+     <a class="card board-card c1" href="/board/2">
+       <div class="band"></div>
+       <div class="body"><h3>Faith &amp; Life</h3><p class="muted">18 articles</p></div>
+     </a>
+   </div>
+
+   Board page: same pieces, but with .board-head and an h1 instead.
+   ========================================================================== */
+.board-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.board-card { display: block; overflow: hidden; }
+.board-card:hover { border-color: #CBD5E1; }
+.board-card .band { height: 56px; background: var(--band); }            /* the colour stripe replaces images */
+.board-card .body { padding: 14px 16px 16px; }
+.board-card h3 { font-size: 17px; font-weight: 600; }
+.board-head { overflow: hidden; }
+.board-head .band { height: 72px; background: var(--band); }
+.board-head .body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 6px; }
+.board-head h1 { font-size: 28px; line-height: 1.2; font-weight: 700; }
+
+
+/* ==========================================================================
+   9. FORMS AND VALIDATION
+
+   Standard field:
+   <div class="field">
+     <label for="email">Email</label>
+     <input id="email" class="input">
+     <p class="validation-message">Enter a valid email address.</p>
+   </div>
+
+   Editor title: use class="input input-title" for the large borderless field.
+   Small textarea (comments): class="input input-sm".
+   Hide a label visually but keep it for screen readers: class="sr-only".
+   Filters row on Home: .filters (search + 2 dropdowns); on Board page .filters filters-2.
+   ========================================================================== */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 14px; font-weight: 600; }
+.input {
+  width: 100%; min-height: 44px; padding: 10px 12px;
+  border: 1px solid var(--color-input-border); border-radius: var(--radius-button);
+  background: #fff; color: var(--color-text); font-size: 15px;
+}
+.input:focus { outline: 2px solid var(--color-primary); outline-offset: 0; border-color: var(--color-primary); }
+textarea.input { min-height: 320px; line-height: 1.7; resize: vertical; }   /* article body */
+textarea.input.input-sm { min-height: 88px; }                               /* comment box */
+.input-title { border: 0; border-bottom: 1px solid var(--color-border); border-radius: 0; padding: 4px 0 12px; font-size: 28px; font-weight: 700; line-height: 1.25; }
+.input-title:focus { outline: none; border-bottom-color: var(--color-primary); }
+
+/* Search box with a magnifier icon: put an <svg> before the input inside .search */
+.search { position: relative; }
+.search svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--color-text-muted); pointer-events: none; }
+.search .input { padding-left: 38px; }
+
+/* Filter row: search takes the free space, two dropdowns (board, sort) sit beside it */
+.filters { display: grid; grid-template-columns: minmax(0, 1fr) 180px 180px; gap: 10px; }
+.filters-2 { grid-template-columns: minmax(0, 1fr) 180px; }   /* Board page: no board dropdown */
+.hint { color: var(--color-text-muted); font-size: 13px; }    /* helper text under a field */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Validation. Blazor's <ValidationMessage> renders .validation-message.
+   The warning icon means errors never rely on colour alone.
+   Add class "invalid" to the input to turn its border red. */
+.validation-message { color: var(--color-danger); font-size: 13px; font-weight: 500; }
+.validation-message::before, .alert-error::before { content: "⚠ "; }
+input.invalid, textarea.invalid, select.invalid { border-color: var(--color-danger); }
+
+/* Banner-style error, e.g. "Incorrect email or password" above a form */
+.alert { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: var(--radius-button); font-size: 14px; font-weight: 500; }
+.alert-error { background: var(--color-danger-light); color: var(--color-danger); border: 1px solid var(--color-danger-border); }
+
+
+/* ==========================================================================
+   10. AUTH PAGE (Sign in / Create account)
+   Two routes share this look. The tabs are links, so each tab is a Blazor page:
+
+   <div class="auth">
+     <a class="brand"><img src="logo.png" alt="">Discourse</a>
+     <div class="card auth-card">
+       <div class="auth-tabs">
+         <a href="/login" class="active">Sign in</a>
+         <a href="/register">Create account</a>
+       </div>
+       ... fields in a .stack ...
+     </div>
+   </div>
+   ========================================================================== */
+.auth { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 24px; }
+.auth .brand { padding: 0; font-size: 24px; }
+.auth .brand img { height: 34px; }
+.auth-card { width: 100%; max-width: 420px; padding: 8px 28px 28px; }
+.auth-tabs { display: grid; grid-template-columns: 1fr 1fr; margin: 0 -28px 20px; border-bottom: 1px solid var(--color-border); } /* negative margin makes the line span the card */
+.auth-tabs a { padding: 14px 12px 12px; text-align: center; font-weight: 600; font-size: 15px; color: var(--color-text-muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.auth-tabs a.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+
+
+/* ==========================================================================
+   11. HOME HERO BANNER (guests only)
+   Show this above the feed only when nobody is signed in:
+   <section class="hero">
+     <h2>Read. Write. Discuss.</h2>
+     <p>Short description.</p>
+     <div class="row wrap">
+       <a class="btn btn-light">Create account</a>
+       <a class="btn btn-outline-light">Sign in</a>
+     </div>
+   </section>
+   ========================================================================== */
+.hero { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 26px 28px; border-radius: var(--radius-card); background: var(--color-navy); color: #fff; }
+.hero h2 { font-size: 28px; line-height: 1.2; font-weight: 700; }
+.hero p { max-width: 460px; color: #CBD5E1; font-size: 15px; line-height: 1.55; }
+.hero .row { margin-top: 6px; }
+
+
+/* ==========================================================================
+   12. ARTICLE PAGE (reading and rating)
+
+   <article class="article">
+     <p class="crumbs"><a href="/board/1">← Technology</a></p>
+     <span class="tag c0">Technology</span>
+     <h1>Title</h1>
+     <div class="article-meta">avatar, name + <small>date</small>, Edit/Delete buttons</div>
+     <div class="prose">Body text</div>
+     <div class="card rate-row">stars and rating</div>
+   </article>
+   ========================================================================== */
+.article h1 { margin: 10px 0 14px; font-size: 34px; line-height: 1.2; font-weight: 700; }
+.article-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 14px; }
+.article-meta small { display: block; color: var(--color-text-muted); font-size: 13px; }
+.prose { margin: 24px 0; font-size: 16px; line-height: 1.7; white-space: pre-wrap; } /* keeps paragraph breaks from the plain textarea */
+.crumbs { font-size: 14px; color: var(--color-text-muted); }
+.crumbs a { display: inline-block; padding: 6px 0; color: var(--color-primary); }  /* padding = bigger tap target */
+
+/* Rating: .stars shows the average (read-only). Each clickable star is a .star-btn */
+.stars { display: inline-flex; gap: 2px; color: #F59E0B; }
+.star-btn { background: none; border: 0; padding: 6px 3px; color: #F59E0B; line-height: 0; }
+.rate-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 16px; }
+
+
+/* ==========================================================================
+   13. COMMENTS (flat, no replies)
+   One .card.comment per comment. Show .comment-actions only on the signed-in
+   user's own comments.
+
+   <div class="card comment">
+     <div class="comment-head">avatar, <b>Name</b>, <span class="muted">1 day ago</span></div>
+     <p class="comment-body">Text</p>
+     <div class="comment-actions">
+       <button class="link-btn">Edit</button>
+       <button class="link-btn danger">Delete</button>
+     </div>
+   </div>
+   ========================================================================== */
+.comment { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; }
+.comment-head { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.comment-head .muted { margin-left: 2px; }
+.comment-body { font-size: 15px; line-height: 1.6; white-space: pre-wrap; }  /* keeps line breaks */
+.comment-actions { display: flex; gap: 16px; }
+
+
+/* ==========================================================================
+   14. EMPTY STATES AND ACCOUNT PAGE
+
+   Empty state (no articles, no comments):
+   <div class="card empty">
+     <h3>Nothing here yet</h3><p>Be the first to write.</p><a class="btn">Write article</a>
+   </div>
+
+   Account page: .info-list is a label/value list (<dl>), and the delete section
+   uses .danger-zone with an inline .confirm panel shown after the first click.
+   ========================================================================== */
+.empty { padding: 36px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.empty h3 { font-size: 17px; font-weight: 600; }
+.empty p { color: var(--color-text-muted); font-size: 14px; max-width: 340px; }
+.empty .btn { margin-top: 10px; }
+.info-list { display: grid; grid-template-columns: 110px 1fr; gap: 10px 12px; font-size: 15px; }
+.info-list dt { color: var(--color-text-muted); font-size: 14px; }
+.info-list dd { margin: 0; }
+.danger-zone { border-color: var(--color-danger-border); }
+.danger-zone h2 { font-size: 18px; font-weight: 600; }
+.confirm { margin-top: 14px; padding: 16px; border-radius: var(--radius-button); background: var(--color-danger-light); border: 1px solid var(--color-danger-border); display: flex; flex-direction: column; gap: 12px; }
+
+
+/* ==========================================================================
+   15. MOBILE RULES (768px and below)
+   This is the ONLY responsive switch in the app. Everything above is the
+   desktop layout; this block adjusts it for phones:
+   hides the sidebar, shows the top bar and tab bar, and tightens spacing.
+   Keep one rule per line so the preview tool can scope it.
+   ========================================================================== */
+/* ==MOBILE-START== */
+@media (max-width: 768px) {
+.app { grid-template-columns: 1fr; }
+.sidebar { display: none; }
+.topbar-m { display: flex; }
+.tabbar { display: grid; }
+.main { padding: 16px 16px 88px; }
+.page-head h1 { font-size: 25px; }
+.btn { min-height: 44px; }
+.btn.btn-sm { min-height: 44px; }
+.link-btn { padding: 12px 0; }
+.comment-actions { gap: 20px; }
+.filters { grid-template-columns: 1fr 1fr; }
+.filters-2 { grid-template-columns: 1fr; }
+.filters .search { grid-column: 1 / -1; }
+.board-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.board-card .band { height: 44px; }
+.board-head h1 { font-size: 24px; }
+.article h1 { font-size: 26px; }
+.hero { padding: 20px; }
+.hero h2 { font-size: 24px; }
+.input-title { font-size: 24px; }
+textarea.input { min-height: 260px; }
+textarea.input.input-sm { min-height: 88px; }
+.auth-card { padding: 4px 20px 24px; }
+.auth-tabs { margin: 0 -20px 18px; }
+.info-list { grid-template-columns: 1fr; gap: 2px; }
+}
+/* ==MOBILE-END== */
+
+
+/* ==========================================================================
+   16. MOTION
+   Subtle colour fades only, and only for people who have not asked their
+   device to reduce motion.
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .btn, .nav-item, .article-card, .board-card { transition: background-color .15s, border-color .15s, color .15s; }
+}

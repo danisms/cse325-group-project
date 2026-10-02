@@ -182,5 +182,6 @@ C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddisco
 C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse\obj\Debug\net10.0\ddiscourse.pdb
 C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse\obj\Debug\net10.0\ddiscourse.genruntimeconfig.cache
 C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse\obj\Debug\net10.0\ref\ddiscourse.dll
-C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse\obj\Debug\net10.0\compressed\d8qba7b9du-{0}-uuj4f7y3le-uuj4f7y3le.gz
 C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse\obj\Debug\net10.0\compressed\7gc461o0fo-{0}-v6vx47oqa5-v6vx47oqa5.gz
+C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse\obj\Debug\net10.0\compressed\d8qba7b9du-{0}-qdrh3ssybr-qdrh3ssybr.gz
+C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse\obj\Debug\net10.0\compressed\bxn7xf7ue3-{0}-qdrh3ssybr-qdrh3ssybr.gz

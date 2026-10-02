@@ -1078,10 +1078,10 @@ C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddisco
 C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\obj\Debug\net10.0\refint\ddiscourse.Client.dll
 C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\obj\Debug\net10.0\ddiscourse.Client.pdb
 C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\obj\Debug\net10.0\ref\ddiscourse.Client.dll
-C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\bin\Debug\net10.0\wwwroot\_framework\ddiscourse.Client.dyzp1syl0c.wasm
-C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\bin\Debug\net10.0\wwwroot\_framework\ddiscourse.Client.w5jsj9i7kv.pdb
-C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\bin\Debug\net10.0\wwwroot\_framework\ddiscourse.Client.dyzp1syl0c.wasm.gz
-C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\bin\Debug\net10.0\wwwroot\_framework\ddiscourse.Client.w5jsj9i7kv.pdb.gz
-C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\obj\Debug\net10.0\compressed\dwl4gn49qq-{0}-dyzp1syl0c-dyzp1syl0c.gz
-C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\obj\Debug\net10.0\compressed\5lc03m4pml-{0}-w5jsj9i7kv-w5jsj9i7kv.gz
-C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\obj\Debug\net10.0\compressed\nf7bl1x8yc-{0}-5or9qtz6py-5or9qtz6py.gz
+C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\bin\Debug\net10.0\wwwroot\_framework\ddiscourse.Client.xstmnejjf2.wasm
+C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\bin\Debug\net10.0\wwwroot\_framework\ddiscourse.Client.oyzewmjhq1.pdb
+C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\bin\Debug\net10.0\wwwroot\_framework\ddiscourse.Client.xstmnejjf2.wasm.gz
+C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\bin\Debug\net10.0\wwwroot\_framework\ddiscourse.Client.oyzewmjhq1.pdb.gz
+C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\obj\Debug\net10.0\compressed\dwl4gn49qq-{0}-xstmnejjf2-xstmnejjf2.gz
+C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\obj\Debug\net10.0\compressed\5lc03m4pml-{0}-oyzewmjhq1-oyzewmjhq1.gz
+C:\Users\Danism\Documents\BYU-Idaho\CSE-325 - .NET - Software Development\ddiscourse\ddiscourse.Client\obj\Debug\net10.0\compressed\nf7bl1x8yc-{0}-h3wyf4maqv-h3wyf4maqv.gz

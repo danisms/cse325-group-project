@@ -1,6 +1,6 @@
 # D Discourse
 
-**CSE 325 — Mastering .NET Group Project**
+**CSE 325 - Mastering .NET Group Project**
 
 D Discourse is a social platform built for **focused, topic-based conversations**. Instead of relying on one endless feed where posts can get lost, D Discourse organizes discussions into **boards**, with each board centered on a specific topic.
 

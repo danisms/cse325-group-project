@@ -1,23 +1,32 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+@* The shell from app.css section 4. Desktop shows the sidebar; at 768px and below
+   CSS hides it and shows the top bar and tab bar instead. All three are always in the
+   markup, and the single @media rule in app.css decides which are visible. *@
+<div class="app">
+    <aside class="sidebar" aria-label="Main navigation">
+        <SidebarNav />
+    </aside>
+
+    <div>
+        <header class="topbar-m">
+            <TopBar />
+        </header>
+
+        <main class="main">
+            <div class="page">
+                @Body
+            </div>
+        </main>
     </div>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+    <nav class="tabbar" aria-label="Main">
+        <TabBar />
+    </nav>
 </div>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
     <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
+    <span class="dismiss" role="button" aria-label="Dismiss">✕</span>
 </div>

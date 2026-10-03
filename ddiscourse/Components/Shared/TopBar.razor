@@ -1,0 +1,16 @@
+@* Mobile top bar: brand on the left, avatar (signed in) or Sign in button (guest) on the right. *@
+
+<a class="brand" href=""><img src="logo.png" alt="" />Discourse</a>
+
+<span class="spacer">
+    <AuthorizeView>
+        <Authorized>
+            <a href="account" aria-label="Account">
+                <span class="avatar c0" aria-hidden="true">@UserDisplay.Initials(context.User)</span>
+            </a>
+        </Authorized>
+        <NotAuthorized>
+            <a class="btn btn-sm" href="Account/Login">Sign in</a>
+        </NotAuthorized>
+    </AuthorizeView>
+</span>

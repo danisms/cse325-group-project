@@ -1195,6 +1195,44 @@ select.invalid {
   gap: 12px;
 }
 
+/*** BLAZOR BUILT IN ERROR STYLING ***/
+/* Long emails in the sidebar user chip should wrap instead of overflowing */
+.user-chip>span:last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Blazor's built-in error banner. Its old styles lived in MainLayout.razor.css,
+   which you are deleting, so it is restyled here with the app tokens. */
+#blazor-error-ui {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  padding: 12px 44px 12px 16px;
+  background: var(--color-danger-light);
+  color: var(--color-danger);
+  border-top: 1px solid var(--color-danger-border);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+#blazor-error-ui .reload {
+  color: var(--color-danger);
+  text-decoration: underline;
+  margin-left: 8px;
+}
+
+#blazor-error-ui .dismiss {
+  position: absolute;
+  right: 16px;
+  top: 12px;
+  cursor: pointer;
+}
+
+
 
 /* ==========================================================================
    15. MOBILE RULES (768px and below)
